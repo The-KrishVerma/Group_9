@@ -1,0 +1,428 @@
+/* ==========================================================================
+   DevTalk — Modern Dark Mode (Deep Slate & Violet/Indigo)
+   Shared styling for both Vulnerable and Secured builds.
+   ========================================================================== */
+
+:root {
+  /* Color Palette */
+  --bg: #090d16;
+  --bg-gradient: radial-gradient(circle at 50% 0%, #17223b 0%, #090d16 65%);
+  --card: #121a2d;
+  --card-hover: #162038;
+  --card-border: #1e2c4a;
+  
+  --text: #f1f5f9;
+  --text-muted: #94a3b8;
+  --muted: #64748b;
+  
+  --primary: #6366f1;
+  --primary-light: #818cf8;
+  --primary-hover: #4f46e5;
+  --primary-gradient: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  --primary-glow: rgba(99, 102, 241, 0.35);
+
+  --border: #1e293b;
+  --input-bg: #0b1120;
+  --input-border: #26354f;
+  
+  /* Radii & Shadows */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 16px -2px rgba(0, 0, 0, 0.5), 0 2px 6px -2px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 12px 30px -4px rgba(0, 0, 0, 0.6), 0 4px 12px -2px rgba(0, 0, 0, 0.5);
+  --shadow-glow: 0 0 24px rgba(99, 102, 241, 0.2);
+
+  --transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg);
+  background-image: var(--bg-gradient);
+  background-attachment: fixed;
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Inter", Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.container {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* ==========================================================================
+   Build Banner
+   ========================================================================== */
+
+.build-banner {
+  text-align: center;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.build-banner.vulnerable {
+  background: linear-gradient(90deg, #881337 0%, #e11d48 50%, #881337 100%);
+  border-bottom: 1px solid rgba(244, 63, 94, 0.3);
+  box-shadow: 0 2px 10px rgba(225, 29, 72, 0.25);
+}
+
+.build-banner.secured {
+  background: linear-gradient(90deg, #064e3b 0%, #059669 50%, #064e3b 100%);
+  border-bottom: 1px solid rgba(16, 185, 129, 0.3);
+  box-shadow: 0 2px 10px rgba(5, 150, 105, 0.25);
+}
+
+/* ==========================================================================
+   Header & Brand
+   ========================================================================== */
+
+.site-header {
+  background: rgba(11, 16, 28, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 16px 0;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.brand {
+  font-size: 21px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  text-decoration: none;
+  background: linear-gradient(135deg, #ffffff 40%, #a5b4fc 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: opacity 0.2s ease;
+}
+
+.brand:hover {
+  opacity: 0.9;
+}
+
+/* ==========================================================================
+   Main Content & Typography
+   ========================================================================== */
+
+main {
+  padding-top: 32px;
+  padding-bottom: 40px;
+}
+
+h1 {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  margin: 12px 0 20px;
+  color: #ffffff;
+}
+
+h2 {
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  margin: 0 0 10px;
+  color: #f8fafc;
+}
+
+a {
+  color: var(--primary-light);
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+a:hover {
+  color: #c7d2fe;
+}
+
+/* ==========================================================================
+   Cards & Discussions
+   ========================================================================== */
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-lg);
+  padding: 22px;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow-md);
+  transition: var(--transition);
+}
+
+article.card:hover {
+  background: var(--card-hover);
+  border-color: rgba(99, 102, 241, 0.45);
+  box-shadow: var(--shadow-lg), var(--shadow-glow);
+  transform: translateY(-2px);
+}
+
+article.card h2 a {
+  color: #f8fafc;
+  font-weight: 600;
+}
+
+article.card h2 a:hover {
+  color: var(--primary-light);
+}
+
+.meta, .comment-meta {
+  color: var(--text-muted);
+  font-size: 13.5px;
+  margin: 6px 0 12px;
+}
+
+.meta strong, .comment-meta strong {
+  color: #cbd5e1;
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   Comments
+   ========================================================================== */
+
+.comment {
+  background: rgba(18, 26, 45, 0.85);
+  border: 1px solid var(--card-border);
+  border-left: 4px solid var(--primary);
+  border-radius: var(--radius-md);
+  padding: 14px 18px;
+  margin-bottom: 14px;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+}
+
+.comment:hover {
+  border-color: rgba(99, 102, 241, 0.35);
+  border-left: 4px solid var(--accent);
+  background: rgba(22, 32, 56, 0.95);
+}
+
+.comment-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.comment-user {
+  color: #e0e7ff !important;
+}
+
+.comment-text {
+  margin-top: 6px;
+  word-wrap: break-word;
+  color: #cbd5e1;
+  line-height: 1.55;
+}
+
+/* ==========================================================================
+   Forms & Controls
+   ========================================================================== */
+
+label {
+  display: block;
+  font-weight: 600;
+  margin: 14px 0 6px;
+  font-size: 14px;
+  color: #cbd5e1;
+}
+
+input, textarea {
+  width: 100%;
+  padding: 10px 14px;
+  background: var(--input-bg);
+  border: 1px solid var(--input-border);
+  border-radius: var(--radius-md);
+  color: var(--text);
+  font: inherit;
+  font-size: 14.5px;
+  transition: var(--transition);
+}
+
+input:focus, textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-glow);
+  background: #0d1527;
+}
+
+textarea {
+  resize: vertical;
+}
+
+button, .button-link {
+  display: inline-block;
+  margin-top: 14px;
+  padding: 10px 20px;
+  background: var(--primary-gradient);
+  color: #ffffff;
+  border: 0;
+  border-radius: var(--radius-md);
+  font: inherit;
+  font-weight: 600;
+  font-size: 14.5px;
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow: 0 4px 14px var(--primary-glow);
+  transition: var(--transition);
+}
+
+button:hover, .button-link:hover {
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5);
+  transform: translateY(-1px);
+  color: #ffffff;
+}
+
+button:active, .button-link:active {
+  transform: translateY(0);
+}
+
+/* ==========================================================================
+   Feedback Alerts
+   ========================================================================== */
+
+.error {
+  background: rgba(225, 29, 72, 0.12);
+  color: #fda4af;
+  border: 1px solid rgba(225, 29, 72, 0.35);
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
+  margin-bottom: 14px;
+  font-size: 14px;
+}
+
+.success {
+  background: rgba(16, 185, 129, 0.12);
+  color: #6ee7b7;
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
+  margin-bottom: 14px;
+  font-size: 14px;
+}
+
+/* ==========================================================================
+   Floating Action Button (FAB) & Side Panel Drawer
+   ========================================================================== */
+
+.fab {
+  position: fixed;
+  top: 86px;
+  right: 24px;
+  width: 48px;
+  height: 48px;
+  line-height: 44px;
+  text-align: center;
+  font-size: 28px;
+  font-weight: 300;
+  color: #ffffff;
+  background: var(--primary-gradient);
+  border-radius: 50%;
+  text-decoration: none;
+  box-shadow: 0 6px 20px var(--primary-glow);
+  z-index: 20;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fab:hover {
+  transform: scale(1.08) rotate(90deg);
+  box-shadow: 0 8px 26px rgba(99, 102, 241, 0.6);
+  color: #ffffff;
+}
+
+.side-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 380px;
+  max-width: 90%;
+  background: rgba(15, 23, 42, 0.96);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-left: 1px solid var(--card-border);
+  box-shadow: -8px 0 36px rgba(0, 0, 0, 0.7);
+  padding: 24px;
+  overflow-y: auto;
+  transform: translateX(105%);
+  visibility: hidden;
+  transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.28s;
+  z-index: 30;
+}
+
+.side-panel:target, .side-panel.open {
+  transform: translateX(0);
+  visibility: visible;
+}
+
+.side-panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.side-panel-header h2 {
+  margin: 0;
+}
+
+.close-link {
+  font-size: 26px;
+  line-height: 1;
+  color: var(--muted);
+  text-decoration: none;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  transition: var(--transition);
+}
+
+.close-link:hover {
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* ==========================================================================
+   Footer
+   ========================================================================== */
+
+.footer {
+  color: var(--muted);
+  font-size: 13px;
+  padding: 30px 20px 40px;
+  border-top: 1px solid var(--border);
+  margin-top: 40px;
+  text-align: center;
+}
