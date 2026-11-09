@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Blind Command Injection Lab</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
+  <style>
+    body{max-width:900px;margin:3rem auto} .grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+    .card{border:1px solid #777;border-radius:12px;padding:1.2rem} .tag{font-weight:700}
+    @media(max-width:650px){.grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <h1>OS Command Injection Lab</h1>
+  <p>Variant 2 — <strong>Blind, time-based command injection</strong></p>
+  <p>This local lab compares a deliberately vulnerable diagnostic endpoint with a secured endpoint.</p>
+  <div class="grid">
+    <section class="card"><h2>Vulnerable endpoint</h2><p class="tag">Shell interprets the input</p><p>Command output is suppressed. Observe execution time instead.</p><a href="/vulnerable">Open vulnerable demo →</a></section>
+    <section class="card"><h2>Secured endpoint</h2><p class="tag">Validated argument-vector execution</p><p>Only a hostname or IP address is accepted; shell parsing is disabled.</p><a href="/secured">Open secured demo →</a></section>
+  </div>
+</body></html>

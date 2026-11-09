@@ -1,0 +1,10 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Blind Injection — Secured</title><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css"></head>
+<body>
+  <p><a href="/">← Lab home</a></p><h1>Secured: validated ping</h1>
+  <p>The server accepts only a valid IP address or hostname and invokes ping with a list of arguments and <code>shell=False</code>.</p>
+  <form method="post"><label for="host">Host</label><input id="host" name="host" value="{{ host }}" placeholder="127.0.0.1" required><button>Run secured diagnostic</button></form>
+  {% if status %}<hr><h2>Result</h2><p>{{ status }}</p>{% if elapsed is not none %}<p><strong>Elapsed time:</strong> {{ elapsed }} seconds</p>{% endif %}{% endif %}
+  <p>Try the same test input used in the vulnerable page: it should be rejected by the hostname/IP allow-list before any process is started.</p>
+  <p><a href="/vulnerable">Return to vulnerable endpoint →</a></p>
+</body></html>

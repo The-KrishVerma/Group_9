@@ -1,0 +1,10 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Blind Injection — Vulnerable</title><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css"></head>
+<body>
+  <p><a href="/">← Lab home</a></p><h1>Vulnerable: blind time-based test</h1>
+  <p>The server builds a shell command using the submitted host. Standard output and error are discarded, so the result is inferred from response time.</p>
+  <form method="post"><label for="host">Host / test input</label><input id="host" name="host" value="{{ host }}" placeholder="127.0.0.1" required><button>Run diagnostic</button></form>
+  {% if status %}<hr><h2>Result</h2><p>{{ status }}</p><p><strong>Elapsed time:</strong> {{ elapsed }} seconds</p>{% endif %}
+  <details><summary>Authorized local demonstration payload</summary><p>On macOS/Linux, submit <code>127.0.0.1; sleep 3</code>. The shell runs the ping command and then a three-second delay. The page does not reveal the second command's output; the added delay is the evidence.</p></details>
+  <p><a href="/secured">Compare with secured endpoint →</a></p>
+</body></html>
