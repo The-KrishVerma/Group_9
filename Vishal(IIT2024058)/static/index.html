@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>ClearanceNet — Secure Agent Portal</title>
+  <meta name="description" content="ClearanceNet classified agent authentication portal. Authorized personnel only.">
+  <link rel="stylesheet" href="/style.css">
+  <script defer src="/app.js"></script>
+</head>
+<body>
+  <div class="scanline-overlay" aria-hidden="true"></div>
+
+  <header>
+    <div class="brand-block">
+      <div class="shield-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2L3 6V12C3 16.97 6.84 21.63 12 23C17.16 21.63 21 16.97 21 12V6L12 2Z" stroke="currentColor" stroke-width="1.5" fill="none"/>
+          <path d="M9 12L11 14L15 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div>
+        <span class="brand">CLEARANCENET</span>
+        <span class="brand-sub">CLASSIFIED OPERATIONS PORTAL</span>
+      </div>
+    </div>
+    <div class="header-status">
+      <span class="status-dot"></span>
+      <span class="status-text">SECURE CONNECTION</span>
+    </div>
+  </header>
+
+  <main>
+    <!-- Left panel: classified hero -->
+    <section class="hero" aria-hidden="true">
+      <div class="hero-content">
+        <div class="classification-banner">TOP SECRET // SCI // NOFORN</div>
+        <h1>AUTHORIZED<br>PERSONNEL<br>ONLY.</h1>
+        <p class="hero-desc">This system is restricted to authorized users.<br>All activity is monitored and recorded.</p>
+        <div class="stat-grid">
+          <div class="stat">
+            <span class="stat-num">12,847</span>
+            <span class="stat-label">ACTIVE AGENTS</span>
+          </div>
+          <div class="stat">
+            <span class="stat-num">LEVEL 5</span>
+            <span class="stat-label">CLEARANCE REQ.</span>
+          </div>
+          <div class="stat">
+            <span class="stat-num">AES-256</span>
+            <span class="stat-label">ENCRYPTION</span>
+          </div>
+        </div>
+        <div class="terminal-block">
+          <span class="terminal-prompt">SYS:// </span>
+          <span class="terminal-text" id="terminal-text">Awaiting authentication...</span>
+          <span class="cursor" aria-hidden="true">█</span>
+        </div>
+      </div>
+      <div class="grid-bg" aria-hidden="true"></div>
+    </section>
+
+    <!-- Right panel: login form -->
+    <section class="auth-panel">
+      <div id="login-panel">
+        <div class="eyebrow">AGENT AUTHENTICATION</div>
+        <h2>Identify<br>Yourself.</h2>
+        <p class="subtitle">Enter your credentials to access the classified network.</p>
+
+        <form id="login-form" autocomplete="off">
+          <label for="username">Agent ID</label>
+          <input id="username" name="username" autocomplete="off" spellcheck="false"
+                 maxlength="256" placeholder='e.g. agent.chen  or  try: &apos; OR &apos;1&apos;=&apos;1' required>
+
+          <label for="password">Access Code</label>
+          <div class="password-field">
+            <input id="password" name="password" type="password" autocomplete="off"
+                   maxlength="256" placeholder="Enter access code" required>
+            <button type="button" id="show-password" aria-label="Show password">SHOW</button>
+          </div>
+
+          <!-- ═══ LIVE SQL QUERY MONITOR ═══════════════════════════════════ -->
+          <div class="sql-monitor" id="sql-monitor">
+            <div class="sql-monitor-header">
+              <span class="sql-monitor-label">
+                <span class="sql-warn-icon">⚠</span> LIVE SQL QUERY (VULNERABLE)
+              </span>
+              <span class="sql-monitor-badge" id="sql-status-badge">SAFE</span>
+            </div>
+            <div class="sql-monitor-body">
+              <pre id="sql-preview"><span class="sql-kw">SELECT</span> * <span class="sql-kw">FROM</span> users
+<span class="sql-kw">WHERE</span> password = '<span id="sq-pass" class="sql-val"></span>'
+  <span class="sql-kw">AND</span> username = '<span id="sq-user" class="sql-val"></span>'</pre>
+            </div>
+            <div class="sql-monitor-footer" id="sql-eval-line">
+              <!-- evaluation result shown after submit -->
+            </div>
+          </div>
+          <!-- ══════════════════════════════════════════════════════════════ -->
+
+          <p id="error" role="alert" hidden></p>
+
+          <button class="primary" id="submit" type="submit">
+            REQUEST ACCESS <span>→</span>
+          </button>
+        </form>
+
+        <div class="warning-box">
+          <span class="warn-icon">⚠</span>
+          Unauthorized access attempts are a federal offense under 18 U.S.C. § 1030.
+        </div>
+      </div>
+
+      <!-- Profile panel shown after successful login -->
+      <div id="profile" hidden>
+        <div class="eyebrow">CLEARANCE GRANTED</div>
+        <h2>Welcome,<br>Agent <span id="name"></span>.</h2>
+        <p class="subtitle">You have been granted access to the classified network.</p>
+
+        <!-- Show executed SQL after bypass -->
+        <div class="sql-monitor sql-monitor--success" id="sql-result-monitor">
+          <div class="sql-monitor-header">
+            <span class="sql-monitor-label">
+              <span class="sql-warn-icon">💉</span> INJECTED QUERY EXECUTED
+            </span>
+            <span class="sql-monitor-badge sql-monitor-badge--bypass" id="result-badge">BYPASSED</span>
+          </div>
+          <div class="sql-monitor-body">
+            <pre id="sql-executed-query"></pre>
+          </div>
+        </div>
+
+        <div class="clearance-card">
+          <div class="card-header">
+            <span class="eyebrow">AGENT PROFILE</span>
+            <span class="clearance-badge">ACTIVE</span>
+          </div>
+          <dl>
+            <div>
+              <dt>Agent ID</dt>
+              <dd id="account-name"></dd>
+            </div>
+            <div>
+              <dt>Secure Email</dt>
+              <dd id="account-email"></dd>
+            </div>
+            <div>
+              <dt>Clearance Level</dt>
+              <dd>TOP SECRET / SCI</dd>
+            </div>
+            <div>
+              <dt>Session Status</dt>
+              <dd class="status-active">AUTHENTICATED</dd>
+            </div>
+          </dl>
+        </div>
+
+        <div class="ops-section">
+          <h3>Operational Modules</h3>
+          <div class="ops-grid">
+            <div class="op-card"><span class="op-icon">🗂</span><span>Case Files</span></div>
+            <div class="op-card"><span class="op-icon">📡</span><span>SIGINT Feed</span></div>
+            <div class="op-card"><span class="op-icon">🛰</span><span>Satellite Intel</span></div>
+            <div class="op-card"><span class="op-icon">🔐</span><span>Crypto Vault</span></div>
+          </div>
+        </div>
+
+        <button id="logout" class="primary logout-btn" type="button">
+          TERMINATE SESSION <span>↗</span>
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <span>CLEARANCENET © 2024 — FEDERAL RESTRICTED SYSTEM</span>
+    <span>CLASSIFICATION: TOP SECRET // SCI</span>
+    <span>SESSION ID: <span id="session-id">N/A</span></span>
+  </footer>
+</body>
+</html>
