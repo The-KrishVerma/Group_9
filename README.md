@@ -7,31 +7,29 @@ Department of Information Technology
 Instructor: Dr. Soumyadev Maity
 
 **Assignment:** Exploitation and Mitigation of Four Vulnerability Categories  
-(SQL injection, OS command injection, Cross-Site Scripting, Cross-Site Request Forgery)
+(SQL Injection, OS Command Injection, Cross-Site Scripting, and Cross-Site Request Forgery)
 
-> **Educational use only.** Every application in this repository is intentionally vulnerable and binds to `127.0.0.1`. Run them only on your own machine. Never deploy them publicly or test systems you do not own.
+> **Educational use only.** These applications are intentionally vulnerable and are designed for local demonstrations. Run them only on your own machine and do not expose them to public networks or test systems you do not own.
 
 ---
 
 ## 1. Video Demonstration
 
-Group video (screen recording with voice-over, each member narrates their own variant):
-
-**[Google Drive folder – Group 9 demo video](https://drive.google.com/drive/u/1/folders/1UqiPTHgZ4gHbqMFIInNPc-ukGVCcjbTj)**
+Group video: [Google Drive folder – Group 9 demo video](https://drive.google.com/drive/u/1/folders/1UqiPTHgZ4gHbqMFIInNPc-ukGVCcjbTj)
 
 ---
 
-## 2. Ownership Declaration (Table 3)
+## 2. Ownership Declaration
 
 | S. No. | Member Name | Roll Number | Category | Variant Implemented |
 |:---:|---|---|---|---|
-| 1 | Atharva | IIT2024192 | SQL injection | Authentication bypass |
-| 2 | Aditya | IIT2024205 | OS command injection | In-band (command output returned) |
-| 3 | Shivam | IIT2024124 | Cross-Site Scripting (XSS) | Stored XSS |
-| 4 | Anurag | IIT2024156 | Cross-Site Scripting (XSS) | Reflected XSS |
-| 5 | Arun | IIT2024157 | Cross-Site Request Forgery (CSRF) | GET-based forged action |
+| 1 | Vishal | IIT2024058 | SQL Injection | Authentication bypass |
+| 2 | Vardaan Gupta | IIT2024046 | OS Command Injection | Blind, time-based |
+| 3 | Bhavay | IIT2024057 | Cross-Site Scripting (XSS) | Reflected XSS |
+| 4 | Krish Verma | IIT2024050 | Cross-Site Scripting (XSS) | Stored XSS |
+| 5 | Piyush | IIT2024100 | Cross-Site Request Forgery (CSRF) | POST-based account update (email and password change) |
 
-**Note on group size:** Our group has five members. As the assignment allows for groups of more than four, two members implement the same category (XSS) with **mandatorily different variants** (Stored vs Reflected). All four categories are covered, and no two members implement the same variant.
+**Group-size note:** The group has five members. XSS is implemented by two members using different variants: Reflected XSS and Stored XSS. All four required vulnerability categories are covered, and no two members implement the same variant.
 
 ---
 
@@ -39,102 +37,85 @@ Group video (screen recording with voice-over, each member narrates their own va
 
 ```text
 Group-9-Cyber-Security/
-├── README.md                          <- this file
-├── Atharva (IIT2024192)/              SQL injection – authentication bypass
-│   ├── SQL_Injection_Vulnerable/      port 8001
-│   ├── SQL_Injection_Secured/         port 8002
+├── Vishal(IIT2024058)/
+│   ├── app.py
+│   ├── static/
+│   ├── tests/
+│   ├── docs/ASSIGNMENT_REPORT.md
 │   └── Screenshots/
-├── Aditya (IIT2024205)/               OS command injection – in-band
-│   ├── OS COMMAND INJECTION/          /vulnerable and /safe routes, port 5000
-│   └── Screenshot/
-├── Shivam (IIT2024124)/               Stored XSS
-│   ├── Stored_XSS_Vulnerable/         port 5001
-│   ├── Stored_XSS_Secured/            port 5002
-│   └── Screenshots/
-├── anurag(IIT2024156)/                Reflected XSS
-│   ├── app.py                         /search/vulnerable and /search/safe, port 5000
+│
+├── IIT2024046-VardaanGupta/
+│   ├── app.py
+│   ├── templates/
+│   │   ├── index.html
+│   │   ├── vulnerable.html
+│   │   └── secured.html
+│   ├── requirements.txt
 │   └── screenshots/
-└── Arun(IIT2024157)/                  CSRF – GET-based
-    ├── vulnerable/                    port 3000
-    ├── secured/                       port 3001
-    ├── attacker/                      attacker site, port 4000
+│
+├── Bhavay(IIT2024057)/
+│   └── Bhavay(IIT2024057)/
+│       ├── app.py
+│       └── README.md
+│
+├── Krish Verma - IIT2024050/
+│   ├── Stored_XSS_Vulnerable/
+│   │   ├── app.py
+│   │   ├── database.py
+│   │   ├── templates/
+│   │   ├── static/
+│   │   ├── tests/
+│   │   └── docs/
+│   ├── Stored_XSS_Secured/
+│   │   ├── app.py
+│   │   ├── database.py
+│   │   ├── templates/
+│   │   ├── static/
+│   │   ├── tests/
+│   │   └── docs/
+│   └── Screenshots/
+│
+└── Piyush(IIT2024100)/
+    ├── vulnerable/
+    │   ├── server.js
+    │   └── views/
+    ├── secured/
+    │   ├── server.js
+    │   └── views/
+    ├── attacker/
+    │   ├── server.js
+    │   └── attacker.html
+    ├── package.json
     └── screenshots/
 ```
 
 ---
 
-## 4. Summary of All Variants (Table 2 Items a–e)
+## 4. Summary of All Implemented Variants
 
-### 4.1 SQL Injection – Authentication Bypass (Atharva, IIT2024192)
-
-| Item | Details |
-|---|---|
-| **(a) Vulnerable code** | `authenticate()` in `SQL_Injection_Vulnerable/app.py` builds the query with an f-string: `SELECT ... WHERE username = '{username}' AND password = '{password}'` |
-| **(b) Exploit** | Username `alex' -- ` (note the trailing space) with any password, e.g. `alex123` |
-| **(c) Root cause** | User input is concatenated directly into the SQL string, so the quote closes the string and `-- ` comments out the password check. |
-| **(d) Mitigation implemented** | **Parameterised query**: `WHERE username = ? AND password = ?` with values bound separately. The same payload is rejected. |
-| **(e) Other mitigations (theory)** | **Allow-list input validation** restricts usernames to the expected characters and length (an extra layer, not a replacement). **Least-privilege DB accounts** limit damage if injection occurs. **Safe errors** return generic messages and keep DB diagnostics in protected logs so attackers cannot learn the schema. |
-
-### 4.2 OS Command Injection – In-Band (Aditya, IIT2024205)
+### 4.1 SQL Injection – Authentication Bypass (Vishal, IIT2024058)
 
 | Item | Details |
 |---|---|
-| **(a) Vulnerable code** | `/vulnerable` route in `app.py`: `subprocess.run(f"ping -n 1 {host}", shell=True, ...)` |
-| **(b) Exploit** | Windows: `127.0.0.1 & whoami`. Linux/macOS: `127.0.0.1; whoami`. The output of `whoami` is returned in the page. |
-| **(c) Root cause** | User input is concatenated into a command string that is run through the shell, so shell metacharacters (`&`, `;`, `|`) start a second command. |
-| **(d) Mitigation implemented** | `/safe` route: **allow-list validation** (strict hostname/IPv4 regex) **plus an argument vector** with `shell=False`: `["ping", "-n", "1", host]`. The same payload is rejected. |
-| **(e) Other mitigations (theory)** | **Avoid the shell** altogether (use a library/API call such as a native ping or DNS lookup instead of spawning a process). **Parameterised execution with an argument vector** passes each argument as a separate item so no shell parses the input. **Allow-list validation** accepts only known-good input shapes. **Least privilege** runs the web process under an account with minimal OS permissions, so a successful injection can do little. |
+| **(a) Vulnerable code** | `authenticate()` in `app.py` constructs an SQL query using string interpolation. |
+| **(b) Exploit** | Username: `' OR '1'='1` and any non-empty password. |
+| **(c) Root cause** | User input is concatenated into the SQL query, allowing injected SQL expressions to alter the query logic. |
+| **(d) Mitigation implemented** | Parameterized SQL query, binding submitted values separately so they are treated as data rather than SQL syntax. |
+| **(e) Other mitigations (theory)** | Allow-list input validation, least-privilege database accounts, password hashing, and generic error messages with detailed diagnostics restricted to protected logs. |
 
-### 4.3 Stored XSS (Shivam, IIT2024124)
-
-| Item | Details |
-|---|---|
-| **(a) Vulnerable code** | `templates/discussion.html` in `Stored_XSS_Vulnerable`: `{{ c.comment \| safe }}` |
-| **(b) Exploit** | Post this as a comment: `<script>alert('Stored XSS Successfully Executed');</script>` |
-| **(c) Root cause** | The comment is stored unchanged and rendered with the `\| safe` filter, so Jinja2 skips escaping and the browser executes the script for every visitor. |
-| **(d) Mitigation implemented** | **Context-aware output encoding via Jinja2 auto-escaping**: `{{ c.comment }}`. The payload is still stored but displayed as harmless text. |
-| **(e) Other mitigations (theory)** | **Framework auto-escaping** makes encoding the default. **HTML sanitiser** (DOMPurify, nh3) allow-lists safe tags when rich HTML is needed. **Content Security Policy** blocks inline scripts even if injection occurs. **HttpOnly cookies** stop scripts from reading session cookies (limits damage, does not prevent XSS). **Safe DOM sinks** (`textContent` instead of `innerHTML`) prevent DOM-based XSS. |
-
-### 4.4 Reflected XSS (Anurag, IIT2024156)
-
-| Item | Details |
-|---|---|
-| **(a) Vulnerable code** | `/search/vulnerable` in `app.py`: `query_display = query` (the `?q=` parameter is placed into the HTML unencoded). |
-| **(b) Exploit** | `/search/vulnerable?q=<script>alert('XSS')</script>` |
-| **(c) Root cause** | Input from the request is reflected into the response without output encoding, so the browser parses it as markup and runs it. |
-| **(d) Mitigation implemented** | `/search/safe`: **output encoding** with `html.escape(query)`. The same URL now shows the payload as plain text. |
-| **(e) Other mitigations (theory)** | **Framework auto-escaping** (Jinja2 `{{ var }}`), **HTML sanitiser** (DOMPurify/Bleach) for rich content, **CSP** to block inline script execution, **HttpOnly cookies** to protect session cookies, and **safe DOM sinks** (`textContent`). |
-
-### 4.5 CSRF – GET-Based Forged Action (Arun, IIT2024157)
-
-| Item | Details |
-|---|---|
-| **(a) Vulnerable code** | `vulnerable/server.js`, handler for `GET /profile/theme`, which changes the user's theme on a GET request. |
-| **(b) Exploit** | The attacker page (`attacker/attacker.html`) contains `<a href="http://localhost:3000/profile/theme?value=dark">Claim prize</a>`. A logged-in victim who clicks it has their theme changed. |
-| **(c) Root cause** | The server trusts the session cookie alone (the browser attaches it automatically) and performs a state change on a GET, with no proof the user intended the action. |
-| **(d) Mitigation implemented** | **Avoid state-changing GET requests**: `GET /profile/theme` returns **405 Method Not Allowed**; the change is only accepted via `POST`. The session cookie also carries `SameSite=Lax`. |
-| **(e) Other mitigations (theory)** | **Anti-CSRF (synchronizer) tokens**: unpredictable per-session token checked on every state-changing request; attackers cannot read it because of the same-origin policy. **SameSite cookies**: the browser withholds the cookie on cross-site requests. **Re-authentication** for sensitive actions: a password/OTP the attacker cannot supply. |
-
----
-
-## 5. How to Run Each Project
-
-Each project is independent. Prerequisites: **Python 3.9+** (for the Flask apps) and **Node.js 16+** (for the CSRF demo).
-
-> Anurag's and Aditya's apps both use port 5000, so run them one at a time.
-
-### SQL Injection (Atharva)
+**Run:**
 
 ```bash
-cd "Atharva (IIT2024192)/SQL_Injection_Vulnerable"
-python app.py            # http://127.0.0.1:8001
-
-cd "../SQL_Injection_Secured"
-python app.py            # http://127.0.0.1:8002
+cd "Vishal(IIT2024058)"
+python app.py
 ```
 
-Exploit: username `alex' -- ` with password `alex123`.  
-Valid login: `alex` / `Maison!26`.
+Open `http://127.0.0.1:8001`.
+
+Demo accounts:
+
+- `agent.chen` / `RedAlert#99`
+- `director.hayes` / `Sector7!Top`
 
 Tests:
 
@@ -142,107 +123,174 @@ Tests:
 python -m unittest discover -s tests -v
 ```
 
-### OS Command Injection (Aditya)
+### 4.2 OS Command Injection – Blind, Time-Based (Vardaan Gupta, IIT2024046)
+
+| Item | Details |
+|---|---|
+| **(a) Vulnerable code** | `/vulnerable` route in `app.py` builds a ping command using the submitted host and executes it with `shell=True`. Command output is suppressed. |
+| **(b) Exploit** | On macOS/Linux, submit `127.0.0.1; sleep 3`. The additional command introduces a delay, which is observed through elapsed response time. |
+| **(c) Root cause** | Untrusted input is concatenated into a command string interpreted by the shell. |
+| **(d) Mitigation implemented** | `/secured` validates the submitted value as an IP address or hostname and invokes ping using an argument vector with `shell=False`. |
+| **(e) Other mitigations (theory)** | Avoid shell execution where possible, use argument-vector execution, allow-list validation, and run the application with least OS privilege. |
+
+**Run:**
 
 ```bash
-cd "Aditya (IIT2024205)/OS COMMAND INJECTION"
-python -m venv .venv
-
-# Windows:
-.\.venv\Scripts\Activate.ps1
-
-# Linux/macOS:
+cd "IIT2024046-VardaanGupta"
+python3 -m venv .venv
 source .venv/bin/activate
-
 pip install -r requirements.txt
-python app.py            # http://127.0.0.1:5000
+python app.py
 ```
 
-Available routes: `/vulnerable` and `/safe`.
+Open `http://127.0.0.1:5001/`.
 
-### Stored XSS (Shivam)
+Demonstration:
+
+1. Submit `127.0.0.1` on the vulnerable endpoint as the baseline.
+2. Submit `127.0.0.1; sleep 3` and compare the elapsed time.
+3. Submit the same payload on the secured endpoint; it should be rejected.
+4. Submit `127.0.0.1` on the secured endpoint to verify normal functionality.
+
+The time-based payload is intended for macOS/Linux shell syntax.
+
+### 4.3 Reflected XSS (Bhavay, IIT2024057)
+
+| Item | Details |
+|---|---|
+| **(a) Vulnerable code** | `/search/vulnerable` reflects the `q` query parameter into the HTML without encoding it (`query_display = query`). |
+| **(b) Exploit** | Use a search query such as `<script>alert('XSS')</script>` on the vulnerable search page. |
+| **(c) Root cause** | Request-controlled input is inserted into the HTML response without output encoding. |
+| **(d) Mitigation implemented** | `/search/safe` applies HTML escaping using `html_mod.escape(query)`, so the same payload is displayed as text rather than executed. |
+| **(e) Other mitigations (theory)** | Framework auto-escaping, HTML sanitization for rich content, Content Security Policy (CSP), HttpOnly cookies, and safe DOM sinks such as `textContent`. |
+
+**Run:**
 
 ```bash
-cd "Shivam (IIT2024124)/Stored_XSS_Vulnerable"
-python3 -m venv .venv && source .venv/bin/activate
-pip install -r requirements.txt
-python3 app.py           # http://127.0.0.1:5001
-
-cd "../Stored_XSS_Secured"       # use its own virtual environment
-pip install -r requirements.txt
-python3 app.py           # http://127.0.0.1:5002
+cd "Bhavay(IIT2024057)/Bhavay(IIT2024057)"
+pip install flask
+python app.py
 ```
 
-Tests:
+Open `http://127.0.0.1:5000/`.
+
+The interface provides vulnerable and mitigated search modes, a request inspector, and an exploit drawer containing demonstration payloads.
+
+### 4.4 Stored XSS (Krish Verma, IIT2024050)
+
+| Item | Details |
+|---|---|
+| **(a) Vulnerable code** | `templates/discussion.html` in `Stored_XSS_Vulnerable` renders comments using `{{ c.comment \| safe }}`. |
+| **(b) Exploit** | Submit a script payload as a discussion comment, for example `<script>alert('Stored XSS Successfully Executed');</script>`. |
+| **(c) Root cause** | The comment is stored in SQLite and later rendered without HTML escaping because the Jinja2 `safe` filter disables auto-escaping for that value. |
+| **(d) Mitigation implemented** | The secured build renders the comment using `{{ c.comment }}`. Jinja2 auto-escaping encodes HTML-sensitive characters. |
+| **(e) Other mitigations (theory)** | Framework auto-escaping, HTML sanitization when rich HTML is required, CSP, HttpOnly cookies, and safe DOM sinks such as `textContent`. |
+
+**Run the vulnerable build:**
 
 ```bash
-pip install -r requirements-dev.txt && pytest
-```
-
-### Reflected XSS (Anurag)
-
-```bash
-cd "anurag(IIT2024156)"
+cd "Krish Verma - IIT2024050/Stored_XSS_Vulnerable"
+python3 -m venv .venv
+source .venv/bin/activate
 pip install -r requirements.txt
-python app.py            # http://127.0.0.1:5000
+python3 app.py
 ```
 
-Available pages: vulnerable and mitigated pages.
+Open `http://127.0.0.1:5001`.
 
-(`run.sh` / `run.bat` are also provided.)
-
-### CSRF (Arun)
-
-No `npm install` needed (built-in Node modules only).
-
-Open three terminals:
+**Run the secured build in a separate terminal:**
 
 ```bash
-cd "Arun(IIT2024157)"
-
-# Terminal 1
-node vulnerable/server.js    # http://localhost:3000
-
-# Terminal 2
-node secured/server.js       # http://localhost:3001
-
-# Terminal 3
-node attacker/server.js      # http://127.0.0.1:4000
+cd "Krish Verma - IIT2024050/Stored_XSS_Secured"
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+python3 app.py
 ```
+
+Open `http://127.0.0.1:5002`.
+
+The vulnerable and secured builds use separate SQLite database files. The comment is stored in both builds; the security difference is how it is rendered.
+
+### 4.5 CSRF – POST-Based Account Update (Piyush, IIT2024100)
+
+| Item | Details |
+|---|---|
+| **(a) Vulnerable code** | `vulnerable/server.js` accepts `POST /account/update` based on the session cookie and changes the user's email and password. |
+| **(b) Exploit** | Log in to the vulnerable application, then open the attacker site in the same browser and click **Claim Prize Now!**. The attacker page submits a hidden cross-origin POST form to the vulnerable account-update endpoint. |
+| **(c) Root cause** | The vulnerable endpoint relies on the automatically attached session cookie and does not verify that the state-changing request was intentionally initiated by the legitimate application. |
+| **(d) Mitigation implemented** | The secured application checks a per-session synchronizer CSRF token and validates the request Origin/Referer. Its session cookie also uses `SameSite=Strict` and `HttpOnly`. |
+| **(e) Other mitigations (theory)** | Synchronizer CSRF tokens, SameSite cookies, Origin/Referer validation, and re-authentication for sensitive account changes. |
+
+**Run:** Node.js 16+ is required. No `npm install` is needed because the project uses built-in Node.js modules.
+
+Open three terminals from `Piyush(IIT2024100)`:
+
+```bash
+node vulnerable/server.js
+```
+
+```bash
+node secured/server.js
+```
+
+```bash
+node attacker/server.js
+```
+
+Endpoints:
+
+- Vulnerable application: `http://localhost:3000`
+- Secured application: `http://localhost:3001`
+- Attacker site: `http://localhost:4000`
 
 Demo users:
 
-- `alice / alice123`
-- `bob / bob123`
+- `alice` / `alice123`
+- `bob` / `bob123`
 
-Log in as alice, then open the attacker page in the same browser and click **Claim prize**. Use `127.0.0.1` for the attacker so it is a genuinely different site from `localhost`.
+### Port Summary
+
+| Project | Port |
+|---|---:|
+| SQL Injection – Vishal | 8001 |
+| Blind OS Command Injection – Vardaan | 5001 |
+| Reflected XSS – Bhavay | 5000 |
+| Stored XSS – Krish (vulnerable) | 5001 |
+| Stored XSS – Krish (secured) | 5002 |
+| CSRF – Piyush (vulnerable) | 3000 |
+| CSRF – Piyush (secured) | 3001 |
+| CSRF – Piyush (attacker) | 4000 |
+
+**Port conflict:** Vardaan's OS command injection app and Krish's vulnerable Stored XSS app both use port 5001. Run these applications one at a time, or change one application's port consistently in its code and documentation before running both simultaneously.
 
 ---
 
-## 6. Evidence
+## 5. Evidence
 
-Screenshots of the working exploit and the blocked attempt (same payload) are in each member's screenshots folder:
+Screenshots are included in the respective member ZIP folders:
 
-- `Atharva (IIT2024192)/Screenshots/`
-- `Aditya (IIT2024205)/Screenshot/`
-- `Shivam (IIT2024124)/Screenshots/`
-- `anurag(IIT2024156)/screenshots/`
-- `Arun(IIT2024157)/screenshots/`
+- `Vishal(IIT2024058)/Screenshots/`
+- `IIT2024046-VardaanGupta/screenshots/`
+- `Bhavay(IIT2024057)/Bhavay(IIT2024057)/` (the ZIP's top-level listing does not show a separate screenshots directory)
+- `Krish Verma - IIT2024050/Screenshots/`
+- `Piyush(IIT2024100)/screenshots/`
 
 ---
 
-## 7. Viva Readiness
+## 6. Viva Readiness
 
-Each member can demonstrate their own variant live and explain:
+Each member should be prepared to demonstrate and explain:
 
 1. The vulnerable code path.
-2. The exact payload.
-3. The root cause.
-4. The one mitigation they implemented.
-5. The theory of the alternative mitigations listed above.
+2. The exact demonstration payload.
+3. The root cause of the vulnerability.
+4. The mitigation implemented in the secured version.
+5. Why the mitigation blocks the demonstrated payload.
+6. Other relevant mitigations and their limitations.
 
 ---
 
-## 8. Academic Integrity
+## 7. Academic Integrity and Safety
 
-All code and exploits in this repository are the group's own work. Testing was done only against our own applications running on `127.0.0.1`.
+All demonstrations are intended for the group's own local applications. Keep the servers bound to localhost and do not deploy intentionally vulnerable builds publicly. Use the applications only for the authorized classroom assignment.
