@@ -15,7 +15,7 @@ Instructor: Dr. Soumyadev Maity
 
 ## 1. Video Demonstration
 
-Group video: [Google Drive folder – Group 9 demo video]([https://drive.google.com/drive/u/1/folders/1UqiPTHgZ4gHbqMFIInNPc-ukGVCcjbTj](https://drive.google.com/drive/u/1/folders/1tQSRSo6csBleAgcxlFaMvYwT-cLpGdDu))
+Group video: [Google Drive folder – Group 9 demo video](https://drive.google.com/drive/u/1/folders/1tQSRSo6csBleAgcxlFaMvYwT-cLpGdDu)
 
 ---
 
