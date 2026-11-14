@@ -33,39 +33,6 @@ Then open **http://127.0.0.1:5000/** in your browser (or use `run.sh` / `run.bat
 
 ---
 
-## Video Demo Script (2-3 minutes)
-
-### Step 1: Show the Vulnerable Build (~45 sec)
-1. Open `http://127.0.0.1:5000/` → click **Vulnerable catalogue**.
-2. Search for `Security` → two books appear, normal behaviour.
-3. In the Exploit drawer, click **Run** on payload 1:
-   ```
-   <script>alert('XSS')</script>
-   ```
-4. **An alert box pops up** — script execution confirmed.
-5. Point to the URL bar and the Request inspector: the payload lives in `?q=`. _"An attacker sends this crafted link to a victim; when they click it, the script runs on Folio's origin in their session."_
-
-### Step 2: Show the Root Cause (~30 sec)
-- Scroll to the **Server code** panel (or open `app.py`) and point to:
-  ```python
-  query_display = query  # <- THIS IS THE VULNERABILITY
-  ```
-- In the inspector, show **Inserted into the HTML**: the `<script>` tag went in unchanged.
-
-### Step 3: Show the Mitigated Build (~45 sec)
-1. Click **Mitigated** in the top-right switch — the same payload is replayed.
-2. The `<script>` tag now appears as **plain text** in "Results for …". No alert.
-3. The inspector shows the inserted markup as `&lt;script&gt;…`, and the Server code panel highlights:
-   ```python
-   query_display = html_mod.escape(query)  # <- THIS IS THE FIX
-   ```
-- Explain: _"`html.escape()` turns `<` into `&lt;` and `>` into `&gt;`, so the browser displays the characters instead of parsing a tag."_
-
-### Step 4: Discuss Other Mitigations (~45 sec)
-Go back to the home page and walk through the **Defences against XSS** cards, or read the section below.
-
----
-
 ## (e) Other Mitigations — Theory
 
 The mitigation I implemented is **context-aware output encoding** (`html.escape()`). Here are the other defences from the lecture slides and why they work:
